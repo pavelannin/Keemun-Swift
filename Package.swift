@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Keemun-Swift",
+    name: "KeemunSwift",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
@@ -10,10 +10,13 @@ let package = Package(
         .watchOS(.v6),
     ],
     products: [
-        .library(name: "Keemun-Swift", targets: ["Keemun-Swift"]),
+        .library(name: "KeemunSwift", targets: ["KeemunSwift"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/groue/CombineExpectations.git", from: "0.10.0"),
     ],
     targets: [
-        .target(name: "Keemun-Swift"),
-        .testTarget(name: "Keemun-SwiftTests", dependencies: ["Keemun-Swift"]),
+        .target(name: "KeemunSwift"),
+        .testTarget(name: "KeemunSwiftTests", dependencies: ["KeemunSwift", "CombineExpectations"]),
     ]
 )
