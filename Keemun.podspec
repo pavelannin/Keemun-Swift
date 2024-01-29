@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-    s.name             = 'KeemunSwift'
+    s.name             = 'Keemun'
     s.version          = '1.0.0'
     s.summary          = 'Swift the Elm architecture pattern'
     s.description      = <<-DESC

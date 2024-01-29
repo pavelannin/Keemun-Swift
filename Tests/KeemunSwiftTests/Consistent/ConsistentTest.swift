@@ -1,6 +1,6 @@
 import XCTest
 import Combine
-@testable import KeemunSwift
+@testable import Keemun
 
 final class ConsistentTest: XCTestCase {
     private var cancellable: Set<AnyCancellable> = []

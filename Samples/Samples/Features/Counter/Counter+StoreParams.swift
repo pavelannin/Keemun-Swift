@@ -1,8 +1,8 @@
 import Foundation
-import KeemunSwift
+import Keemun
 
 struct CounterStoreParams: StoreParams, MsgSplitable {
-    func start() -> Start<CounterStoreParams> {
+    func start() -> Start<Self> {
         .next(
             .init(
                 syncCount: 0,
@@ -24,7 +24,7 @@ extension CounterStoreParams {
 extension CounterStoreParams {
     typealias Msg = SplitMsg<ExternalMsg, InternalMsg>
     
-    public static func externalUpdate(for msg: ExternalMsg, state: State) -> Update<CounterStoreParams> {
+    static func externalUpdate(for msg: ExternalMsg, state: State) -> Update<Self> {
         switch msg {
         case .incrementSync:
             return .next(state) { $0.syncCount = $0.syncCount + 1 }
@@ -37,7 +37,7 @@ extension CounterStoreParams {
         }
     }
     
-    static func internalUpdate(for msg: InternalMsg, state: State) -> KeemunSwift.Update<CounterStoreParams> {
+    static func internalUpdate(for msg: InternalMsg, state: State) -> Update<Self> {
         switch msg {
         case .completedAsyncOperation(let newValue):
             return .next(state) {

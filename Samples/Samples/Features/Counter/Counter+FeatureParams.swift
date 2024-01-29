@@ -1,5 +1,5 @@
 import Foundation
-import KeemunSwift
+import Keemun
 
 struct CounterFeatureParams: FeatureParams {
     typealias SParams = CounterStoreParams

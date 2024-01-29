@@ -1,7 +1,7 @@
 import XCTest
 import Combine
 import CombineExpectations
-@testable import KeemunSwift
+@testable import Keemun
 
 final class CompletenessTest: XCTestCase {
     private var cancellable: Set<AnyCancellable> = []

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B6576972B676F1800C43DB1 /* Keemun in Frameworks */ = {isa = PBXBuildFile; productRef = 6B6576962B676F1800C43DB1 /* Keemun */; };
 		6B9E78562B5CE52400044AB9 /* Counter+FeatureParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E78552B5CE52400044AB9 /* Counter+FeatureParams.swift */; };
 		6B9E78582B5CE61000044AB9 /* Counter+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E78572B5CE61000044AB9 /* Counter+SwiftUI.swift */; };
 		6B9E785A2B5CE7C800044AB9 /* FeatureScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E78592B5CE7C800044AB9 /* FeatureScope.swift */; };
@@ -14,7 +15,6 @@
 		6BA3FFA12B5BA79B003D99E0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3FFA02B5BA79B003D99E0 /* ContentView.swift */; };
 		6BA3FFA32B5BA79D003D99E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA3FFA22B5BA79D003D99E0 /* Assets.xcassets */; };
 		6BA3FFA62B5BA79D003D99E0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA3FFA52B5BA79D003D99E0 /* Preview Assets.xcassets */; };
-		6BA3FFB02B5BA864003D99E0 /* KeemunSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA3FFAF2B5BA864003D99E0 /* KeemunSwift */; };
 		6BA3FFB72B5BAAD7003D99E0 /* Counter+StoreParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3FFB62B5BAAD7003D99E0 /* Counter+StoreParams.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BA3FFB02B5BA864003D99E0 /* KeemunSwift in Frameworks */,
+				6B6576972B676F1800C43DB1 /* Keemun in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +114,7 @@
 			);
 			name = Samples;
 			packageProductDependencies = (
-				6BA3FFAF2B5BA864003D99E0 /* KeemunSwift */,
+				6B6576962B676F1800C43DB1 /* Keemun */,
 			);
 			productName = Samples;
 			productReference = 6BA3FF9B2B5BA79B003D99E0 /* Samples.app */;
@@ -391,9 +391,9 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6BA3FFAF2B5BA864003D99E0 /* KeemunSwift */ = {
+		6B6576962B676F1800C43DB1 /* Keemun */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = KeemunSwift;
+			productName = Keemun;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

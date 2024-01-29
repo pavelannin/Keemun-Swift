@@ -1,6 +1,6 @@
 import Foundation
 import Combine
-@testable import KeemunSwift
+@testable import Keemun
 
 struct CompletenessStoreParams: StoreParams {
     let repeatCount: Int

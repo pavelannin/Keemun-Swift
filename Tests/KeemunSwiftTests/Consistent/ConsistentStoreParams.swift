@@ -1,5 +1,5 @@
 import Foundation
-@testable import KeemunSwift
+@testable import Keemun
 
 struct ConsistentStoreParams: StoreParams {
     func start() -> Start<Self> {
