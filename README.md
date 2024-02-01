@@ -22,7 +22,7 @@ effects.
 <img src='docs/keemun-common.png' width="200">
 
 ## What is Keemun
-Keemun is a multiplatform Kotlin framework that provides a way to write shared code using The Elm Architecture pattern.
+Keemun is a Swift framework that provides a way to write code using The Elm Architecture pattern.
 
 <img src='docs/keemun-store.png' width="500">
 <img src='docs/keemun-connector.png' width="500">
