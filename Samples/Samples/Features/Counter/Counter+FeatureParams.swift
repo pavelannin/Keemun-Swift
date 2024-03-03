@@ -1,16 +1,17 @@
 import Foundation
 import Keemun
 
-struct CounterFeatureParams: FeatureParams {
-    typealias SParams = CounterStoreParams
-}
-
-extension CounterFeatureParams {
-    func stateTransform(_ state: CounterStoreParams.State) -> ViewState {
-        ViewState(
-            syncCount: String(state.syncCount),
-            asyncCount: String(state.asyncCount),
-            isAsyncRunning: state.isAsyncRunning
+extension CounterFeature {
+    var featureParams: FeatureParams<State, Msg, ViewState, ExternalMsg> {
+        FeatureParams(
+            viewStateTransform: StateTransform { state in
+                ViewState(
+                    syncCount: String(state.syncCount),
+                    asyncCount: String(state.asyncCount),
+                    isAsyncRunning: state.isAsyncRunning
+                )
+            }, 
+            messageTransform: Msg.up
         )
     }
     

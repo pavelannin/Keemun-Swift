@@ -4,15 +4,13 @@ import SwiftUI
 
 class FeatureScope {
     
-    func makeCounterConnector() -> CounterConnector {
-        return CounterConnector()
-    }
+    func makeCounterConnector() -> CounterConnector { CounterConnector() }
     
     class CounterConnector {
-        private let connector: KeemunConnector<CounterFeatureParams>
+        private let connector: KeemunConnector<CounterFeature.ViewState, CounterFeature.ExternalMsg>
         
         init() {
-            self.connector = CounterFeatureParams().makeConnector(CounterStoreParams())
+            self.connector = KeemunConnector(CounterFeature())
         }
         
         func makeView() -> CounterFeatureView {

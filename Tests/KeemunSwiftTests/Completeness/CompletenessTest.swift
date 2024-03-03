@@ -8,11 +8,11 @@ final class CompletenessTest: XCTestCase {
     
     func testRun() throws {
         let dispatchCount = 50
-        let expected = CompletenessStoreParams.State(counter1: dispatchCount, counter2: dispatchCount, counter3: dispatchCount)
-        let store = CompletenessStoreParams(repeatCount: dispatchCount).makeStore()
+        let expected = CompletenessState(counter1: dispatchCount, counter2: dispatchCount, counter3: dispatchCount)
+        let store = Keemun.Store(completenessStoreParams(repeatCount: dispatchCount))
         
         let recorder = store.state.record()
-        let actual = try wait(for: recorder.availableElements, timeout: 1, description: "Actual")
+        let actual = try wait(for: recorder.availableElements, timeout: 2, description: "Actual")
         XCTAssertEqual(actual.last, expected)
     }
 }

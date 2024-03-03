@@ -1,30 +1,32 @@
+import Combine
 import Foundation
 import Keemun
 
-struct CounterStoreParams: StoreParams, MsgSplitable {
-    func start() -> Start<Self> {
-        .next(
-            .init(
-                syncCount: 0,
-                asyncCount: 0,
-                isAsyncRunning: false
-            )
+struct CounterFeature: KeemunFeature {
+    typealias Msg = PairMsg<ExternalMsg, InternalMsg>
+    
+    var storeParams: StoreParams<State, Msg, Effect> {
+        StoreParams(
+            start: Start { .next(.init())},
+            update: .combine(
+                externalUpdate: Self.externalUpdate,
+                internalUpdate: Self.internalUpdate
+            ),
+            effectHandler: Self.effectHandler()
         )
     }
 }
 
-extension CounterStoreParams {
+extension CounterFeature {
     struct State {
-        var syncCount: Int
-        var asyncCount: Int
-        var isAsyncRunning: Bool
+        var syncCount: Int = 0
+        var asyncCount: Int = 0
+        var isAsyncRunning: Bool = false
     }
 }
 
-extension CounterStoreParams {
-    typealias Msg = SplitMsg<ExternalMsg, InternalMsg>
-    
-    static func externalUpdate(for msg: ExternalMsg, state: State) -> Update<Self> {
+extension CounterFeature {
+    static let externalUpdate = Update<State, ExternalMsg, Effect> { msg, state in
         switch msg {
         case .incrementSync:
             return .next(state) { $0.syncCount = $0.syncCount + 1 }
@@ -37,7 +39,7 @@ extension CounterStoreParams {
         }
     }
     
-    static func internalUpdate(for msg: InternalMsg, state: State) -> Update<Self> {
+    static let internalUpdate = Update<State, InternalMsg, Effect> { msg, state in
         switch msg {
         case .completedAsyncOperation(let newValue):
             return .next(state) {
@@ -59,15 +61,22 @@ extension CounterStoreParams {
     }
 }
 
-extension CounterStoreParams {
-    func effectHandler(for effect: Effect, dispatch: @escaping InternalDispatch) async {
-        switch effect {
-        case .increment(let value):
-            try! await Task.sleep(for: .seconds(1))
-            dispatch(.completedAsyncOperation(value + 1))
-        case .decrement(let value):
-            try! await Task.sleep(for: .seconds(1))
-            dispatch(.completedAsyncOperation(value - 1))
+extension CounterFeature {
+    static func effectHandler() -> EffectHandler<Effect, InternalMsg> {
+        EffectHandler { effect in
+            switch effect {
+            case .increment(let value):
+                return .task { dispatch in
+                    try! await Task.sleep(for: .seconds(1))
+                    dispatch(.completedAsyncOperation(value + 1))
+                }
+                
+            case .decrement(let value):
+                return .task { dispatch in
+                    try! await Task.sleep(for: .seconds(1))
+                    dispatch(.completedAsyncOperation(value - 1))
+                }
+            }
         }
     }
     

@@ -7,26 +7,26 @@ final class ConsistentTest: XCTestCase {
     
     func testUpdater1() throws {
         let userId = 101
-        let defaultState = ConsistentStoreParams.State(progress: false, loadedUser: nil)
-        let msg = ConsistentStoreParams.Msg.loadUserById(id: userId)
-        let next = ConsistentStoreParams.update(for: msg, state: defaultState)
-        XCTAssertEqual(next.state, ConsistentStoreParams.State(progress: true, loadedUser: nil))
-        XCTAssertEqual(next.effects, [ConsistentStoreParams.Effect.loadUser(id: userId)])
+        let defaultState = ConsistentState(progress: false, loadedUser: nil)
+        let msg = ConsistentMsg.loadUserById(id: userId)
+        let next = consistentStoreParams().update.run(msg, defaultState)
+        XCTAssertEqual(next.state, ConsistentState(progress: true, loadedUser: nil))
+        XCTAssertEqual(next.effects, [ConsistentEffect.loadUser(id: userId)])
     }
     
     func testUpdater2() throws {
-        let defaultState = ConsistentStoreParams.State(progress: true, loadedUser: nil)
-        let user = ConsistentStoreParams.State.User(id: 101)
-        let msg = ConsistentStoreParams.Msg.userWasLoaded(user: user)
-        let next = ConsistentStoreParams.update(for: msg, state: defaultState)
-        XCTAssertEqual(next.state, ConsistentStoreParams.State(progress: false, loadedUser: user))
+        let defaultState = ConsistentState(progress: true, loadedUser: nil)
+        let user = ConsistentState.User(id: 101)
+        let msg = ConsistentMsg.userWasLoaded(user: user)
+        let next = consistentStoreParams().update.run(msg, defaultState)
+        XCTAssertEqual(next.state, ConsistentState(progress: false, loadedUser: user))
         XCTAssertEqual(next.effects, [])
     }
     
     func testFull() throws {
         let expectation = self.expectation(description: "Waiting for the result to be received")
-        let store = ConsistentStoreParams().makeStore()
-        var actual: [ConsistentStoreParams.State] = []
+        let store = Keemun.Store(consistentStoreParams())
+        var actual: [ConsistentState] = []
         store.state
             .collect(3)
             .first()
@@ -37,14 +37,14 @@ final class ConsistentTest: XCTestCase {
             .store(in: &self.cancellable)
         
         let userId = 101
-        store.dispatch(ConsistentStoreParams.Msg.loadUserById(id: userId))
+        store.dispatch(ConsistentMsg.loadUserById(id: userId))
     
         waitForExpectations(timeout: 1)
         
         let expected = [
-            ConsistentStoreParams.State(progress: false, loadedUser:  nil), // Initial state
-            ConsistentStoreParams.State(progress: true, loadedUser: nil),
-            ConsistentStoreParams.State(progress: false, loadedUser: ConsistentStoreParams.State.User(id: userId))
+            ConsistentState(progress: false, loadedUser:  nil), // Initial state
+            ConsistentState(progress: true, loadedUser: nil),
+            ConsistentState(progress: false, loadedUser: ConsistentState.User(id: userId))
         ]
         XCTAssertEqual(actual, expected)
     }

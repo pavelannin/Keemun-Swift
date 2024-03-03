@@ -1,5 +1,11 @@
 import Foundation
 
+public struct FeatureParams<State, Msg, ViewState, ExternalMsg> {
+    let viewStateTransform: any StateTransform<Statte, ViewState>
+    let externalMessageTransform: (ExternalMsg) -> Msg
+    
+    ini
+}
 /// This protocol describes the required parameters for creating a `KeemunConnector`.
 public protocol FeatureParams {
     

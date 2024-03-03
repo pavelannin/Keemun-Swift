@@ -3,9 +3,9 @@ import Keemun
 import SwiftUI
 
 struct CounterFeatureView: View {
-    @ObservedObject private var connector: KeemunConnector<CounterFeatureParams>
+    @ObservedObject private var connector: KeemunConnector<CounterFeature.ViewState, CounterFeature.ExternalMsg>
     
-    init(_ connector: KeemunConnector<CounterFeatureParams>) {
+    init(_ connector: KeemunConnector<CounterFeature.ViewState, CounterFeature.ExternalMsg>) {
         self.connector = connector
     }
     
@@ -21,7 +21,7 @@ struct CounterFeatureView: View {
 }
 
 private struct MainView: View {
-    let state: CounterFeatureParams.ViewState
+    let state: CounterFeature.ViewState
     let syncIncrementAction: () -> Void
     let syncDecrementAction: () -> Void
     let asyncIncrementAction: () -> Void
@@ -52,7 +52,7 @@ private struct MainView: View {
 private struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView(
-            state: CounterFeatureParams.ViewState(
+            state: CounterFeature.ViewState(
                 syncCount: "10",
                 asyncCount: "10",
                 isAsyncRunning: false
