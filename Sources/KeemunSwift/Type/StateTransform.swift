@@ -1,8 +1,10 @@
-//
-//  File.swift
-//  
-//
-//  Created by Pavel Annin on 18.02.2024.
-//
-
 import Foundation
+import Dispatch
+
+public struct StateTransform<State, OutState> {
+    public let transform: (State) -> OutState
+    
+    public init(_ transform: @escaping (State) -> OutState) {
+        self.transform = transform
+    }
+}

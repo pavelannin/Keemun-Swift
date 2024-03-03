@@ -1,8 +1,9 @@
-//
-//  File.swift
-//  
-//
-//  Created by Pavel Annin on 17.02.2024.
-//
-
 import Foundation
+
+public struct Update<State, Msg, Effect> {
+    public let run: (Msg, State) -> Next<State, Effect>
+    
+    public init(_ run: @escaping (Msg, State) -> Next<State, Effect>) {
+        self.run = run
+    }
+}
