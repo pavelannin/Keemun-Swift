@@ -26,10 +26,10 @@ public final class Store<State, Msg, Effect> {
         let observeMessagesQueue = DispatchQueue(label: "keemun.observeMessagesQueue", qos: .userInitiated)
         self._messages
             .receive(on: observeMessagesQueue)
-            .handleEvents(receiveSubscription: { _ in self.effectProcess(startEffects, dispatch: self.dispatch) })
             .buffer(size: .max, prefetch: .keepFull, whenFull: .dropOldest)
             .sink { msg in self.observeMessages(state: self._state.value, msg: msg) }
             .store(in: &self.cancellables)
+        self.effectProcess(startEffects, dispatch: self.dispatch)
     }
     
     /// Sending messages asynchronously.

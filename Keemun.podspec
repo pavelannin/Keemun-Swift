@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'Keemun'
-    s.version          = '2.0.0-beta02'
+    s.version          = '2.1.0'
     s.summary          = 'Swift the Elm architecture pattern'
     s.description      = <<-DESC
     Swift framework that provides a way to write code using The Elm Architecture pattern.
