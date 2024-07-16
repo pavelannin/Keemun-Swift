@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DefaultCompletionName</key>
+	<string>Keemun Feature</string>
+	<key>Description</key>
+	<string>Create new feature</string>
+	<key>Kind</key>
+	<string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+	<key>Options</key>
+        <array>
+            <dict>
+                <key>Identifier</key>
+                <string>FeatureName</string>
+                <key>Name</key>
+                <string>Feature Name:</string>
+                <key>Description</key>
+                <string></string>
+                <key>Default</key>
+                <string></string>
+                <key>Required</key>
+                <string>YES</string>
+                <key>Type</key>
+                <string>text</string>
+            </dict>
+            <dict>
+                <key>Identifier</key>
+                <string>StoreStructure</string>
+                <key>Name</key>
+                <string>Structure of the store files:</string>
+                <key>Description</key>
+                <string></string>
+                <key>Values</key>
+                <array>
+                    <string>Single</string>
+                    <string>Multi</string>
+                </array>
+                <key>Default</key>
+                <string>Single</string>
+                <key>Type</key>
+                <string>popup</string>
+            </dict>
+            <dict>
+                <key>Identifier</key>
+                <string>MsgStructure</string>
+                <key>Name</key>
+                <string>Structure of the Msg class:</string>
+                <key>Description</key>
+                <string></string>
+                <key>Values</key>
+                <array>
+                    <string>Unified</string>
+                    <string>Distributed</string>
+                </array>
+                <key>Default</key>
+                <string>Distributed</string>
+                <key>Type</key>
+                <string>popup</string>
+            </dict>
+            <dict>
+                <key>Identifier</key>
+                <string>HasInputEvent</string>
+                <key>Name</key>
+                <string>Has input event</string>
+                <key>Description</key>
+                <string></string>
+                <key>Default</key>
+                <string>false</string>
+                <key>Type</key>
+                <string>checkbox</string>
+            </dict>
+            <dict>
+                <key>Identifier</key>
+                <string>HasOutputEvent</string>
+                <key>Name</key>
+                <string>Has output event</string>
+                <key>Description</key>
+                <string></string>
+                <key>Default</key>
+                <string>false</string>
+                <key>Type</key>
+                <string>checkbox</string>
+            </dict>
+        </array>
+        <key>Platforms</key>
+        <array>
+            <string>com.apple.platform.iphoneos</string>
+        </array>
+        <key>SortOrder</key>
+        <string>1</string>
+        <key>Summary</key>
+        <string>This generates a new Keemun feature.</string>
+    </dict>
+</plist>
