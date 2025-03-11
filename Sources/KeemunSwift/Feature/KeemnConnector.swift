@@ -21,7 +21,10 @@ public class KeemunConnector<ViewState, ExternalMsg>: ObservableObject {
             .receive(on: viewStateQueue)
             .map(featureParams.viewStateTransform.transform)
             .receive(on: DispatchQueue.main)
-            .sink { self.state = $0 }
+            .sink { [weak self] in
+                guard let self else { return }
+                self.state = $0
+            }
             .store(in: &cancellable)
     }
     
