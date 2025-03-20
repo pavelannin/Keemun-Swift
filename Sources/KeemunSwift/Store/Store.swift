@@ -27,16 +27,20 @@ public final class Store<State, Msg, Effect> {
         self._messages
             .receive(on: observeMessagesQueue)
             .buffer(size: .max, prefetch: .keepFull, whenFull: .dropOldest)
-            .sink { msg in self.observeMessages(state: self._state.value, msg: msg) }
+            .sink { [weak self] msg in
+                guard let self else { return }
+                observeMessages(state: _state.value, msg: msg)
+            }
             .store(in: &self.cancellables)
         self.effectProcess(startEffects, dispatch: self.dispatch)
     }
     
     /// Sending messages asynchronously.
-    public func dispatch(_ msg: Msg) {
+    public lazy var dispatch: Dispatch<Msg> = { [weak self] msg in
+        guard let self else { return }
         _messages.send(msg)
     }
-    
+
     private func observeMessages(state: State, msg: Msg) {
         let next = self.params.update.run(msg, state)
         self._state.send(next.state)
@@ -49,15 +53,26 @@ public final class Store<State, Msg, Effect> {
                 switch effectHandler.processing(effect) {
                 case let .publisher(anyPublisher):
                     anyPublisher
-                        .sink(receiveValue: dispatch)
+                        .sink { [weak self] msg in
+                            guard let self else { return }
+                            dispatch(msg)
+                        }
                         .store(in: &cancellables)
                     
                 case let .task(priority, operation):
-                    Task(priority: priority) {
-                        await operation(dispatch)
+                    Task(priority: priority) { [weak self] in
+                        guard let self else { return }
+                        await operation { [weak self] msg in
+                            guard let self else { return }
+                            dispatch(msg)
+                        }
                     }
                 }
             }
         }
+    }
+
+    deinit {
+        cancellables.removeAll()
     }
 }
