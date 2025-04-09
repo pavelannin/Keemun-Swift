@@ -30,12 +30,23 @@ extension CounterFeature {
         switch msg {
         case .incrementSync:
             return .next(state) { $0.syncCount = $0.syncCount + 1 }
+
         case .decrementSync:
             return .next(state) { $0.syncCount = $0.syncCount - 1 }
+
         case .incrementAsync:
-            return .next(state, effect: .increment(state.asyncCount)) { $0.isAsyncRunning = true }
+            return .next(state) { state, effects in
+                guard !state.isAsyncRunning else { return }
+                state.isAsyncRunning = true
+                effects.append(.increment(state.asyncCount))
+            }
+
         case .decrementAsync:
-            return .next(state, effect: .decrement(state.asyncCount)) { $0.isAsyncRunning = true }
+            return .next(state) { state, effects in
+                guard !state.isAsyncRunning else { return }
+                state.isAsyncRunning = true
+                effects.append(.decrement(state.asyncCount))
+            }
         }
     }
     

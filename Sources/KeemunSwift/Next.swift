@@ -24,24 +24,44 @@ public extension Next {
     }
 }
 
+// MARK: - Mutable state
 public extension Next {
+    typealias MutableState<Value> = (inout Value) -> Void
+
+    @available(*, deprecated, message: "Use MutableState instead")
     typealias Mutable<Value> = (inout Value) -> Void
-    
-    static func next(_ state: State, with: Mutable<State>) -> Next<State, Effect> {
+
+    static func next(_ state: State, with: MutableState<State>) -> Next<State, Effect> {
         var mutable = state
         with(&mutable)
         return self.init(state: mutable, effects: [])
     }
     
-    static func next(_ state: State, effects: [Effect], with:  Mutable<State>) -> Next<State, Effect> {
+    static func next(_ state: State, effects: [Effect], with: MutableState<State>) -> Next<State, Effect> {
         var mutable = state
         with(&mutable)
         return self.init(state: mutable, effects: effects)
     }
     
-    static func next(_ state: State, effect: Effect, with:  Mutable<State>) -> Next<State, Effect> {
+    static func next(_ state: State, effect: Effect, with: MutableState<State>) -> Next<State, Effect> {
         var mutable = state
         with(&mutable)
         return self.init(state: mutable, effects: [effect])
+    }
+}
+
+// MARK: - Mutable state with effects
+public extension Next {
+    typealias MutableStateEffects<Value> = (inout Value, inout [Effect]) -> Void
+
+    static func next(
+        _ state: State,
+        effects: [Effect] = [],
+        with: MutableStateEffects<State>
+    ) -> Next<State, Effect> {
+        var mutableState = state
+        var mutableEffects = effects
+        with(&mutableState, &mutableEffects)
+        return self.init(state: mutableState, effects: mutableEffects)
     }
 }
