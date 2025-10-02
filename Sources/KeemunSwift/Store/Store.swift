@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 /// The entity controls all entities and initiates the message processing and side effect mechanism.
-public final class Store<State, Msg, Effect> {
+public final class Store<State, Msg, Effect> : @unchecked Sendable {
     private let params: StoreParams<State, Msg, Effect>
     
     private let _state: CurrentValueSubject<State, Never>
@@ -53,19 +53,12 @@ public final class Store<State, Msg, Effect> {
                 switch effectHandler.processing(effect) {
                 case let .publisher(anyPublisher):
                     anyPublisher
-                        .sink { [weak self] msg in
-                            guard let self else { return }
-                            dispatch(msg)
-                        }
+                        .sink { msg in dispatch(msg) }
                         .store(in: &cancellables)
-                    
+
                 case let .task(priority, operation):
-                    Task(priority: priority) { [weak self] in
-                        guard let self else { return }
-                        await operation { [weak self] msg in
-                            guard let self else { return }
-                            dispatch(msg)
-                        }
+                    Task(priority: priority) {
+                        await operation { msg in dispatch(msg) }
                     }
                 }
             }
